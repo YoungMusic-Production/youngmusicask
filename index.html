@@ -18,8 +18,7 @@
         .nav-btn.active { color: #fff; border-color: rgba(255,255,255,0.3); }
         #modal-overlay, #qr-overlay { background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); }
         .ticket-bg { background: #000; border: 1px solid #333; box-shadow: 0 0 50px rgba(168,85,247,0.25); }
-        .logo-glow { filter: drop-shadow(0 0 5px rgba(212,175,55,0.3)); transition: all 0.5s; }
-        .logo-glow:hover { filter: drop-shadow(0 0 10px rgba(212,175,55,0.5)); }
+        .logo-glow { filter: drop-shadow(0 0 5px rgba(212,175,55,0.3)); }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -42,15 +41,12 @@
             </div>
 
             <div id="chat-box" class="flex-1 overflow-y-auto p-5 flex flex-col space-y-4"></div>
-            
-            <div id="options-container" class="px-5 py-4 bg-black/40 border-t border-white/5">
-                <div id="options-area" class="grid grid-cols-2 md:grid-cols-3 gap-2.5 max-h-[220px] overflow-y-auto"></div>
-            </div>
+            <div id="options-area" class="px-5 py-4 grid grid-cols-2 md:grid-cols-3 gap-2.5 bg-black/40 border-t border-white/5 max-h-[220px] overflow-y-auto"></div>
 
             <div class="p-4 bg-black/30 border-t border-white/5">
                 <form onsubmit="handleManual(event)" class="flex gap-2">
-                    <input id="user-input" type="text" placeholder="描述细节或输入对标案例..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 text-white transition-all">
-                    <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 rounded-xl text-sm transition-all">确认</button>
+                    <input id="user-input" type="text" placeholder="描述细节或输入对标案例..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white">
+                    <button type="submit" class="bg-purple-600 text-white font-bold px-6 rounded-xl text-sm">确认</button>
                 </form>
             </div>
         </div>
@@ -67,14 +63,9 @@
                         <span class="text-[8px] text-gray-500 uppercase">Track ID</span>
                         <span class="font-mono text-[10px] text-purple-400">#<span id="sheet-id"></span></span>
                     </div>
-                    <div><p class="text-[8px] text-purple-400 uppercase mb-1">制作模式 & 曲风风格</p><p id="s-mode-vibe" class="font-bold text-sm"></p></div>
-                    <div class="p-3 bg-white/5 rounded border border-white/10 italic"><p id="s-ref" class="text-[11px] leading-relaxed"></p></div>
-                    <div class="grid grid-cols-2 gap-4 py-2 border-y border-white/5">
-                        <div><p class="text-[8px] text-gray-500">规格/授权</p><p id="s-misc" class="font-bold text-[10px]"></p></div>
-                        <div><p class="text-[8px] text-gray-500">修改保障</p><p id="s-revisions" class="font-bold text-[10px]"></p></div>
-                    </div>
+                    <div><p class="text-[8px] text-purple-400 uppercase mb-1">制作模式 & 风格</p><p id="s-mode-vibe" class="font-bold text-sm"></p></div>
+                    <div class="p-3 bg-white/5 rounded border border-white/10 italic"><p id="s-ref" class="text-[11px]"></p></div>
                     <div class="p-4 bg-purple-900/20 border-l-4 border-purple-600">
-                        <p class="text-[8px] text-purple-400 mb-0.5">预估商务预算</p>
                         <p id="s-budget" class="text-xl font-black"></p>
                     </div>
                 </div>
@@ -82,9 +73,9 @@
             </div>
             
             <div class="flex gap-3">
-                <button onclick="download()" class="px-6 py-3 bg-neutral-800 text-white rounded-full text-sm">💾 保存单据</button>
-                <button onclick="sendEmail()" class="px-6 py-3 bg-purple-600 text-white font-bold rounded-full text-sm">📧 提交意向</button>
-                <button onclick="toggleQR(true)" class="px-6 py-3 bg-white text-black font-bold rounded-full text-sm">📢 推荐好友</button>
+                <button onclick="download()" class="px-6 py-3 bg-neutral-800 text-white rounded-full text-sm">💾 保存</button>
+                <button onclick="sendEmail()" class="px-6 py-3 bg-purple-600 text-white font-bold rounded-full text-sm">📧 提交</button>
+                <button onclick="toggleQR(true)" class="px-6 py-3 bg-white text-black font-bold rounded-full text-sm">📢 分享</button>
             </div>
         </div>
     </div>
@@ -95,8 +86,7 @@
             <div class="bg-white p-3 rounded-xl">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://youngmusic-production.github.io/youngmusicask/" class="w-44 h-44">
             </div>
-            <p class="text-[10px] text-gray-400">长按保存二维码<br>或发送给合作伙伴</p>
-            <button onclick="toggleQR(false)" class="mt-2 text-gray-500 text-xs">点击关闭</button>
+            <button onclick="toggleQR(false)" class="text-gray-500 text-xs">点击关闭</button>
         </div>
     </div>
 
@@ -109,14 +99,51 @@
         const input = document.getElementById('user-input');
 
         const scenarios = [
-            { q: "您好，欢迎来到 **YOUNG MUSIC**。请选择本次作品的制作模式：", opts: ["🎨 匠心·全手工创作", "⚡ AI 智能辅助制作", "⌨️ 手动输入需求"] },
-            { q: "请选择您心仪的创作曲风定位：", opts: ["🎤 流行 (Pop)", "🎹 抒情", "🎧 嘻哈", "🔥 摇滚", "🕺 电子", "🏮 国风", "🎻 管弦", "🏙 氛围", "🎸 民谣", "⌨️ 手动"] },
+            { q: "您好，欢迎来到 **YOUNG MUSIC**。请选择制作模式：", opts: ["🎨 匠心·全手工创作", "⚡ AI 智能辅助制作", "⌨️ 手动输入需求"] },
+            { q: "请选择您心仪的创作曲风定位：", opts: ["🎤 流行", "🎹 抒情", "🎧 嘻哈", "🔥 摇滚", "🕺 电子", "🏮 国风", "🎻 管弦", "🏙 氛围", "🎸 民谣", "⌨️ 手动"] },
             { q: "是否有对标案例 (Reference)？", opts: ["✍️ 手动填写参考", "🔍 暂无对标"] },
             { q: "作品的时长规格：", opts: ["30s 商业片段", "2min 精简版", "3:30 标准完整版", "⌨️ 自定义"] },
             { q: "实录及艺术配置：", opts: ["🎹 MIDI 创作", "🎸 乐器实录", "🎻 大师级编制", "⌨️ 备注要求"] },
-            { q: "预设的修改保障次数？", opts: ["1次 修正", "2-3次 标准维护", "✍️ 自定义"] },
+            { q: "预设的修改保障次数？", opts: ["1次", "2-3次", "✍️ 自定义"] },
             { q: "关于作品权益授权方案：", opts: ["👑 版权买断", "🤝 非买断授权", "⌨️ 另行协商"] },
             { q: "最后，请确定您的商务预算档位：", opts: ["💰 ¥500", "💎 ¥3000", "🏆 ¥10000+", "⌨️ 另行面谈"] }
         ];
 
         window.onload = () => { document.getElementById('sheet-id').innerText = config.sheetId; refreshUI(); };
+        function refreshUI() {
+            box.innerHTML = "";
+            for (let i = 0; i < step; i++) { addBubble(scenarios[i].q, 'ai'); addBubble(answers[i], 'user'); }
+            if (step < scenarios.length) { aiSay(scenarios[step].q); renderOpts(scenarios[step].opts); } 
+            else { aiSay("单据已就绪..."); setTimeout(showSheet, 800); }
+        }
+        function handleLogic(val) { answers.push(val); redoStack = []; step++; refreshUI(); }
+        function renderOpts(opts) {
+            optArea.innerHTML = "";
+            opts.forEach(o => {
+                const btn = document.createElement('button'); btn.className = "opt-btn"; btn.innerHTML = o;
+                btn.onclick = () => { handleLogic(o.replace(/<[^>]+>/g, '').split('\n')[0].trim()); };
+                optArea.appendChild(btn);
+            });
+        }
+        function handleManual(e) { e.preventDefault(); const val = input.value.trim(); if(!val) return; handleLogic(val); input.value = ""; }
+        function showSheet() {
+            document.getElementById('s-mode-vibe').innerText = answers[0] + " / " + answers[1];
+            document.getElementById('s-ref').innerText = "参考: " + answers[2];
+            document.getElementById('s-budget').innerText = "预算意向: " + answers[7];
+            document.getElementById('modal-overlay').classList.remove('hidden');
+        }
+        function toggleQR(show) { document.getElementById('qr-overlay').classList.toggle('hidden', !show); }
+        function aiSay(txt) { addBubble(txt, 'ai'); }
+        function addBubble(txt, type) {
+            const d = document.createElement('div'); d.className = `bubble bubble-${type} ${type==='user'?'ml-auto':''}`; d.innerText = txt;
+            box.appendChild(d);
+        }
+        function download() {
+            html2canvas(document.getElementById('final-sheet'), { scale: 3, backgroundColor: "#000", useCORS: true }).then(canvas => {
+                const a = document.createElement('a'); a.download = `YM_Order.png`; a.href = canvas.toDataURL(); a.click();
+            });
+        }
+        function sendEmail() { window.open(`mailto:${myEmail}?subject=定制需求&body=预算:${answers[7]}`); }
+    </script>
+</body>
+</html>
