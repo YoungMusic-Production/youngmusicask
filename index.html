@@ -187,4 +187,24 @@
     function showModal() {
         document.getElementById('modal').style.display = 'flex';
         document.getElementById('ticket-content').innerHTML = `
-            <span class="lab">Mode & Style</span><span class="val">${answers
+            <span class="lab">Mode & Style</span><span class="val">${answers[0]} / ${answers[1]}</span>
+            <span class="lab">Reference</span><span class="val">${answers[2]}</span>
+        `;
+        document.getElementById('final-budget').innerText = answers[3] || '另议';
+    }
+
+    function undo() { 
+        if (step > 0) { 
+            step--; 
+            answers.pop(); 
+            chatBox.removeChild(chatBox.lastChild); 
+            chatBox.removeChild(chatBox.lastChild); 
+            isWaitingManual = false;
+            render(); 
+        } 
+    }
+
+    window.onload = () => { addChat(scenarios[0].q, 'ai'); render(); };
+</script>
+</body>
+</html>
