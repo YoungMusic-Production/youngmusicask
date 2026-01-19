@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>YOUNG MUSIC | 匠心定制意向确认</title>
     <style>
-        /* 将 rpx 转换为网页 px，并保留你的黑紫高级感设计 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; height: 100vh; overflow: hidden; font-family: -apple-system, sans-serif; }
 
@@ -13,7 +12,7 @@
             display: flex; 
             flex-direction: column; 
             height: 100vh; 
-            padding-top: 25px; /* 对应你的 50rpx */
+            padding-top: 25px; 
         }
 
         header { 
@@ -28,7 +27,7 @@
 
         .brand-name { font-size: 14px; font-weight: bold; }
         .brand-sub { font-size: 10px; color: #a855f7; display: block; }
-        .undo-btn { font-size: 11px; color: #666; border: 1px solid #333; padding: 4px 10px; border-radius: 15px; }
+        .undo-btn { font-size: 11px; color: #666; border: 1px solid #333; padding: 4px 10px; border-radius: 15px; cursor: pointer; }
 
         #chat-box { 
             flex: 1; 
@@ -55,11 +54,11 @@
         .opt-title { font-size: 14px; color: #fff; font-weight: bold; display: block; }
         .desc-tag { font-size: 11px; color: #666; display: block; margin-top: 3px; }
 
-        .input-bar { display: flex; padding: 15px; gap: 10px; }
+        .input-bar { display: flex; padding: 15px; gap: 10px; opacity: 0.3; transition: 0.3s; pointer-events: none; }
+        .input-bar.active { opacity: 1; pointer-events: auto; }
         input { flex: 1; background: #1a1a1a; border: 1px solid #333; height: 40px; border-radius: 8px; padding: 0 15px; color: #fff; outline: none; }
         .send-btn { background: #a855f7; padding: 0 15px; line-height: 40px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; }
 
-        /* 模态框样式 */
         #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 99; padding: 20px; }
         .ticket { width: 100%; max-width: 350px; background: #000; border: 1px solid #333; padding: 25px; }
         .ticket-line { text-align: center; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 8px 0; font-size: 15px; font-weight: bold; margin-bottom: 20px; }
@@ -67,7 +66,7 @@
         .val { font-size: 14px; font-weight: bold; margin-bottom: 10px; display: block; }
         .budget-area { background: rgba(168,85,247,0.1); border-left: 3px solid #a855f7; padding: 15px; margin: 15px 0; }
         .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { padding: 10px 20px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .btn { padding: 10px 20px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: bold; text-align: center; flex: 1; }
         .btn-gray { background: #222; color: #fff; }
         .btn-purp { background: #a855f7; color: #fff; }
     </style>
@@ -87,8 +86,8 @@
 
     <div class="interaction-area">
         <div id="options" class="options-container"></div>
-        <div class="input-bar">
-            <input type="text" id="user-input" placeholder="输入特殊需求...">
+        <div class="input-bar" id="input-bar">
+            <input type="text" id="user-input" placeholder="请先选择上方选项...">
             <div class="send-btn" onclick="handleManual()">发送</div>
         </div>
     </div>
@@ -112,16 +111,18 @@
 </div>
 
 <script>
-    // 逻辑部分参考之前的版本，确保功能可用
     const scenarios = [
         { q: "您好，YOUNG MUSIC。请选择制作模式：", opts: [{ t: "🎨 匠心·全手工创作", d: "拒绝模版，艺术上限极高。" }, { t: "⚡ AI 智能辅助制作", d: "性价比之选。" }, { t: "⌨️ 自定义输入" }] },
-        { q: "请选择您心仪的曲风风格：", opts: [{ t: "🎤 流行 (Pop)" }, { t: "⚡ 电子 (EDM)" }, { t: "🎧 嘻哈 / 摇滚" }, { t: "🎹 抒情 / 氛围" }, { t: "⌨️ 手动输入" }] },
-        { q: "是否有对标案例？", opts: [{ t: "🔍 暂无对标" }, { t: "⌨️ 手动填写要求" }] },
+        { q: "请选择您心仪的曲风风格：", opts: [{ t: "🎤 流行 (Pop)" }, { t: "⚡ 电子 (EDM)" }, { t: "🎧 嘻哈 / 摇滚" }, { t: "🎹 抒情 / 氛围" }, { t: "🏮 国风 / 管弦" }, { t: "⌨️ 手动输入" }] },
+        { q: "是否有对标案例？", opts: [{ t: "🔍 暂无对标", d: "由制作人自由发挥" }, { t: "⌨️ 手动填写要求", d: "输入曲名或参考链接" }] },
         { q: "最后，确定您的商务预算：", opts: [{ t: "💰 ¥1000" }, { t: "💎 ¥3000" }, { t: "🏆 ¥10000+" }, { t: "⌨️ 手动报价" }] }
     ];
 
     let step = 0; let answers = [];
+    let isWaitingManual = false;
     const chatBox = document.getElementById('chat-box');
+    const inputBar = document.getElementById('input-bar');
+    const userInput = document.getElementById('user-input');
 
     function addChat(text, type) {
         const w = document.createElement('div');
@@ -135,17 +136,45 @@
         const c = document.getElementById('options');
         c.innerHTML = '';
         if (step >= scenarios.length) return;
-        scenarios[step].opts.forEach(opt => {
-            const b = document.createElement('div');
-            b.className = 'opt-btn';
-            b.innerHTML = `<span class="opt-title">${opt.t}</span>${opt.d ? `<span class="desc-tag">${opt.d}</span>` : ''}`;
-            b.onclick = () => process(opt.t);
-            c.appendChild(b);
-        });
+
+        if (isWaitingManual) {
+            c.style.display = 'none';
+            inputBar.classList.add('active');
+            userInput.placeholder = "请在此输入并点击发送...";
+            userInput.focus();
+        } else {
+            c.style.display = 'flex';
+            inputBar.classList.remove('active');
+            userInput.placeholder = "请先选择上方选项...";
+            scenarios[step].opts.forEach(opt => {
+                const b = document.createElement('div');
+                b.className = 'opt-btn';
+                b.innerHTML = `<span class="opt-title">${opt.t}</span>${opt.d ? `<span class="desc-tag">${opt.d}</span>` : ''}`;
+                b.onclick = () => {
+                    if (opt.t.includes('⌨️') || opt.t.includes('手动')) {
+                        addChat(opt.t, 'user');
+                        addChat("好的，请在下方输入框写下具体要求：", 'ai');
+                        isWaitingManual = true;
+                        render();
+                    } else {
+                        process(opt.t);
+                    }
+                };
+                c.appendChild(b);
+            });
+        }
+    }
+
+    function handleManual() {
+        const val = userInput.value.trim();
+        if (!val) return;
+        userInput.value = '';
+        isWaitingManual = false;
+        process(val);
     }
 
     function process(v) {
-        answers.push(v);
+        if (!isWaitingManual) answers.push(v);
         addChat(v, 'user');
         step++;
         if (step < scenarios.length) {
@@ -158,15 +187,4 @@
     function showModal() {
         document.getElementById('modal').style.display = 'flex';
         document.getElementById('ticket-content').innerHTML = `
-            <span class="lab">Mode & Style</span><span class="val">${answers[0]} / ${answers[1]}</span>
-            <span class="lab">Reference</span><span class="val">${answers[2]}</span>
-        `;
-        document.getElementById('final-budget').innerText = answers[3] || '另议';
-    }
-
-    function undo() { if (step > 0) { step--; answers.pop(); chatBox.removeChild(chatBox.lastChild); chatBox.removeChild(chatBox.lastChild); render(); } }
-
-    window.onload = () => { addChat(scenarios[0].q, 'ai'); render(); };
-</script>
-</body>
-</html>
+            <span class="lab">Mode & Style</span><span class="val">${answers
