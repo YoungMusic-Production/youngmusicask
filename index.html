@@ -3,153 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YOUNG MUSIC | 匠心原创商务定制</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>YoungMusic 工作室意向单</title>
     <style>
-        :root { --primary: #a855f7; --bg: #050505; }
-        body { background-color: var(--bg); color: #e5e5e5; font-family: -apple-system, sans-serif; height: 100vh; overflow: hidden; }
-        .bubble { max-width: 85%; padding: 14px 18px; border-radius: 20px; font-size: 14px; line-height: 1.6; margin-bottom: 12px; animation: slideUp 0.3s ease-out; }
-        .bubble-ai { background: #1a1a1c; color: #d4d4d8; border-bottom-left-radius: 4px; border: 1px solid #333; }
-        .bubble-user { background: var(--primary); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
-        .opt-btn { background: #18181b; border: 1px solid #27272a; padding: 12px; border-radius: 12px; font-size: 13px; cursor: pointer; transition: all 0.2s; color: #a1a1aa; text-align: left; display: flex; flex-direction: column; }
-        .opt-btn:hover { background: var(--primary); border-color: white; color: white; transform: translateY(-2px); }
-        .desc-tag { font-size: 10px; color: #666; margin-top: 4px; line-height: 1.2; font-weight: normal; }
-        .nav-btn { font-size: 10px; border: 1px solid rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 99px; color: #666; }
-        #modal-overlay { background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); }
-        .ticket-bg { background: #000; border: 1px solid #333; box-shadow: 0 0 60px rgba(168,85,247,0.2); }
-        .logo-glow { filter: drop-shadow(0 0 5px rgba(212,175,55,0.3)); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        :root {
+            --primary-color: #00d2ff;
+            --accent-color: #3a7bd5;
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        input[type="text"], 
+        input[type="tel"], 
+        select, 
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 16px; /* 防止移动端缩放 */
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .checkbox-item input {
+            margin-right: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #555;
+        }
     </style>
 </head>
-<body class="flex justify-center items-center p-4">
+<body>
 
-    <div class="w-full max-w-5xl h-[95vh] flex gap-6">
-        <div class="flex-1 flex flex-col bg-neutral-900 rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative">
-            <div class="p-4 border-b border-white/5 flex items-center justify-between bg-black/40">
-                <div class="flex items-center gap-3">
-                    <img src="logo.jpg" class="w-10 h-10 object-contain logo-glow" onerror="this.src='https://api.iconify.design/material-symbols:music-note-rounded.svg?color=%23a855f7'">
-                    <div>
-                        <h2 class="font-bold text-sm text-white tracking-widest uppercase">YOUNG MUSIC</h2>
-                        <p class="text-[8px] text-purple-400 font-mono italic uppercase">Professional Bespoke Audio</p>
-                    </div>
-                </div>
-                <button onclick="undo()" class="nav-btn">↩ 撤销重选</button>
-            </div>
+<div class="container">
+    <h1>YoungMusic 工作室</h1>
+    <p class="subtitle">请填写您的定制需求，我们将尽快与您联系</p>
+    
+    <form id="orderForm">
+        <div class="form-group">
+            <label>您的称呼</label>
+            <input type="text" name="name" placeholder="例如：张先生" required>
+        </div>
 
-            <div id="chat-box" class="flex-1 overflow-y-auto p-5 flex flex-col space-y-4"></div>
-            
-            <div id="options-container" class="px-5 py-4 bg-black/40 border-t border-white/5">
-                <div id="options-area" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-[280px] overflow-y-auto"></div>
-            </div>
+        <div class="form-group">
+            <label>联系方式 (微信/电话)</label>
+            <input type="tel" name="contact" placeholder="方便我们回访" required>
+        </div>
 
-            <div class="p-4 bg-black/30 border-t border-white/5">
-                <form onsubmit="handleManual(event)" class="flex gap-2">
-                    <input id="user-input" type="text" placeholder="描述特殊需求或输入自定义项..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500">
-                    <button type="submit" class="bg-purple-600 text-white font-bold px-6 rounded-xl text-sm">发送</button>
-                </form>
+        <div class="form-group">
+            <label>服务类型 (可多选)</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="service" value="编曲"> 编曲制作</div>
+                <div class="checkbox-item"><input type="checkbox" name="service" value="混音"> 后期混音</div>
+                <div class="checkbox-item"><input type="checkbox" name="service" value="作词"> 歌词创作</div>
+                <div class="checkbox-item"><input type="checkbox" name="service" value="母带"> 母带处理</div>
             </div>
         </div>
-    </div>
 
-    <div id="modal-overlay" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-        <div class="flex flex-col items-center gap-6">
-            <div id="final-sheet" class="ticket-bg w-[380px] p-8 text-white rounded-sm text-center">
-                <img src="logo.jpg" class="w-16 h-16 mx-auto mb-4 object-contain logo-glow" onerror="this.style.display='none'">
-                <div class="font-black text-xl tracking-tighter border-y border-white/20 py-2 w-full mb-6 uppercase">项目定制意向单</div>
-                <div class="space-y-4 text-left text-[11px] px-2">
-                    <div><p class="text-[8px] text-purple-400 uppercase mb-1">模式/曲风</p><p id="s-mode-vibe" class="font-bold border-l-2 border-purple-500 pl-2 text-sm"></p></div>
-                    <div><p class="text-[8px] text-purple-400 uppercase mb-1">参考/要求</p><p id="s-ref" class="text-gray-400 italic bg-white/5 p-2 rounded"></p></div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div><p class="text-[8px] text-gray-500 uppercase">时长配置</p><p id="s-spec" class="font-medium"></p></div>
-                        <div><p class="text-[8px] text-gray-500 uppercase">授权方案</p><p id="s-license" class="font-medium text-purple-300"></p></div>
-                    </div>
-                    <div class="mt-4 p-3 bg-purple-900/20 border-l-4 border-purple-600">
-                        <p class="text-[8px] text-purple-400 mb-1 italic uppercase">Estimated Budget</p>
-                        <p id="s-budget" class="text-xl font-black text-white"></p>
-                    </div>
-                    <div class="mt-4 pt-2 border-t border-white/5 text-center">
-                        <p class="text-[8px] text-gray-500 uppercase">Official Contact</p>
-                        <p class="text-purple-400 font-mono text-sm">tingyangmusic@qq.com</p>
-                    </div>
-                </div>
-                <div class="mt-6 text-[8px] opacity-20 italic">YOUNG MUSIC PRODUCTION | SN: #<span id="sheet-id-val"></span></div>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="download()" class="px-6 py-3 bg-neutral-800 text-white rounded-full text-xs">💾 保存图片</button>
-                <button onclick="sendEmail()" class="px-6 py-3 bg-purple-600 text-white font-bold rounded-full text-xs">📧 提交申请</button>
-                <button onclick="location.reload()" class="px-6 py-3 bg-white/10 text-white rounded-full text-xs">🔄 重新开始</button>
-            </div>
+        <div class="form-group">
+            <label>预算区间</label>
+            <select name="budget">
+                <option value="1000以内">1000元以内</option>
+                <option value="1000-3000">1000 - 3000元</option>
+                <option value="3000-5000">3000 - 5000元</option>
+                <option value="5000以上">5000元以上</option>
+            </select>
         </div>
+
+        <div class="form-group">
+            <label>具体需求描述</label>
+            <textarea name="desc" placeholder="请简单描述您的风格偏好、时长要求等..."></textarea>
+        </div>
+
+        <button type="button" onclick="submitForm()">提交意向</button>
+    </form>
+
+    <div class="footer">
+        © 2026 YoungMusic Production. All rights reserved.
     </div>
+</div>
 
-    <script>
-        let step = 0; let answers = [];
-        const config = { sheetId: Math.floor(Math.random()*90000 + 10000) };
-        const myEmail = "tingyangmusic@qq.com";
+<script>
+    function submitForm() {
+        // 这里可以接入后端接口。目前先做一个友好的交互提示
+        alert('意向已收到！由于当前为演示版，请截图此页面并直接发给客服，我们将第一时间为您跟进。');
+    }
+</script>
 
-        const scenarios = [
-            { q: "您好，欢迎来到 YOUNG MUSIC。请选择**制作模式**：", 
-              opts: [{ t: "🎨 匠心·全手工创作", d: "拒绝模版，艺术上限极高。" }, { t: "⚡ AI 智能辅助制作", d: "最新AI技术，高性价比。" }, { t: "⌨️ 自定义输入", d: "我有其他想法..." }] },
-            { q: "请选择您心仪的**曲风风格**：", 
-              opts: [
-                  { t: "🎤 流行 (Pop)", d: "市场主流，悦耳易传唱。" }, 
-                  { t: "⚡ 电子 / 电音 (EDM)", d: "能量十足，适合动感视频或舞台。" }, 
-                  { t: "🎧 嘻哈 / 摇滚", d: "极具律动与冲击力，表达个性。" },
-                  { t: "🎹 抒情 / 氛围", d: "情感细腻，适合背景主题。" }, 
-                  { t: "🏮 国风 / 管弦", d: "大制作感，底蕴深厚。" }, 
-                  { t: "⌨️ 手动输入", d: "想要独特风格..." }
-              ] 
-            },
-            { q: "是否有**对标案例 (Reference)**？", 
-              opts: [{ t: "🔍 暂无对标", d: "由制作人自由发挥创作。" }, { t: "⌨️ 手动填写要求", d: "输入歌曲名或链接描述。" }] },
-            { q: "作品的**时长规格**：", 
-              opts: [{ t: "30s 商业片段", d: "广告或引流视频。" }, { t: "3:30 标准完整版", d: "单曲规格。" }, { t: "⌨️ 自定义时长", d: "项目具体要求。" }] },
-            { q: "关于**作品权益授权**方案：", 
-              opts: [{ t: "👑 版权买断", d: "一次性支付，拥有商用发行全权益。" }, { t: "🤝 非买断授权", d: "价格亲民，保留著作权。" }, { t: "⌨️ 另行协商", d: "面谈细节。" }] },
-            { q: "最后，确定您的**商务预算**意向：", 
-              opts: [{ t: "💰 ¥500", d: "" }, { t: "💎 ¥3000", d: "" }, { t: "🏆 ¥10000+", d: "" }, { t: "⌨️ 手动报价", d: "" }] }
-        ];
-
-        window.onload = () => { document.getElementById('sheet-id-val').innerText = config.sheetId; refreshUI(); };
-        function refreshUI() {
-            const box = document.getElementById('chat-box'); box.innerHTML = "";
-            for (let i = 0; i < step; i++) { addBubble(scenarios[i].q, 'ai'); addBubble(answers[i], 'user'); }
-            if (step < scenarios.length) { aiSay(scenarios[step].q); renderOpts(scenarios[step].opts); } 
-            else { aiSay("单据已生成。"); setTimeout(showSheet, 800); }
-        }
-        function renderOpts(opts) {
-            const area = document.getElementById('options-area'); area.innerHTML = "";
-            opts.forEach(o => {
-                const btn = document.createElement('button'); btn.className = "opt-btn";
-                btn.innerHTML = `<span>${o.t}</span>${o.d ? `<span class="desc-tag">${o.d}</span>` : ''}`;
-                btn.onclick = () => handleLogic(o.t);
-                area.appendChild(btn);
-            });
-        }
-        function handleLogic(val) { answers.push(val); step++; refreshUI(); }
-        function undo() { if (step > 0) { answers.pop(); step--; refreshUI(); } }
-        function showSheet() {
-            document.getElementById('s-mode-vibe').innerText = `${answers[0]} / ${answers[1]}`;
-            document.getElementById('s-ref').innerText = answers[2];
-            document.getElementById('s-spec').innerText = answers[3];
-            document.getElementById('s-license').innerText = answers[4];
-            document.getElementById('s-budget').innerText = "意向预算: " + answers[5];
-            document.getElementById('modal-overlay').classList.remove('hidden');
-        }
-        function aiSay(txt) { addBubble(txt, 'ai'); }
-        function addBubble(txt, type) {
-            const d = document.createElement('div'); d.className = `bubble bubble-${type} ${type==='user'?'ml-auto':''}`; d.innerText = txt;
-            document.getElementById('chat-box').appendChild(d);
-            document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
-        }
-        function download() {
-            html2canvas(document.getElementById('final-sheet'), { scale: 3, backgroundColor: "#000" }).then(canvas => {
-                const a = document.createElement('a'); a.download = `YM_Order.png`; a.href = canvas.toDataURL(); a.click();
-            });
-        }
-        function sendEmail() { window.open(`mailto:${myEmail}?subject=定制需求&body=详情请见附件图`); }
-        function handleManual(e) { e.preventDefault(); const v = document.getElementById('user-input').value; if(v) { handleLogic(v); document.getElementById('user-input').value=''; } }
-    </script>
 </body>
 </html>
