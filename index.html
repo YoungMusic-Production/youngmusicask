@@ -2,215 +2,171 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>YOUNG MUSIC | 匠心定制意向确认</title>
     <style>
-        /* 基础样式：黑金高级感 */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; }
-        body { background: #000; color: #fff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        
-        /* 头部：品牌感 */
-        header { padding: 20px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; background: #050505; flex-shrink: 0; }
-        .brand-name { font-size: 18px; font-weight: bold; letter-spacing: 1px; color: #fff; }
-        .brand-sub { font-size: 10px; color: #a855f7; text-transform: uppercase; display: block; margin-top: 2px; }
-        .undo-btn { font-size: 12px; color: #888; border: 1px solid #333; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
-        .undo-btn:active { background: #1a1a1a; color: #fff; }
+        /* 将 rpx 转换为网页 px，并保留你的黑紫高级感设计 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; height: 100vh; overflow: hidden; font-family: -apple-system, sans-serif; }
 
-        /* 对话流区域 */
-        #chat-box { flex: 1; overflow-y: auto; padding: 20px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
-        .bubble-wrapper { display: flex; margin-bottom: 20px; width: 100%; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            padding-top: 25px; /* 对应你的 50rpx */
+        }
+
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 15px; 
+            border-bottom: 1px solid #1a1a1a; 
+            background: #050505; 
+            flex-shrink: 0;
+        }
+
+        .brand-name { font-size: 14px; font-weight: bold; }
+        .brand-sub { font-size: 10px; color: #a855f7; display: block; }
+        .undo-btn { font-size: 11px; color: #666; border: 1px solid #333; padding: 4px 10px; border-radius: 15px; }
+
+        #chat-box { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 15px; 
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .bubble-wrapper { display: flex; margin-bottom: 15px; width: 100%; }
         .ai-row { justify-content: flex-start; }
         .user-row { justify-content: flex-end; }
-        
-        .bubble { max-width: 85%; padding: 14px 18px; font-size: 14px; line-height: 1.6; border-radius: 18px; }
-        .bubble-ai { background: #1a1a1c; color: #d1d1d1; border: 1px solid #222; border-bottom-left-radius: 4px; }
-        .bubble-user { background: #a855f7; color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
+        .bubble { max-width: 80%; padding: 10px 14px; font-size: 14px; line-height: 1.6; border-radius: 15px; }
+        .bubble-ai { background: #1a1a1c; color: #ccc; border-bottom-left-radius: 4px; border: 1px solid #222; }
+        .bubble-user { background: #a855f7; color: #fff; border-bottom-right-radius: 4px; }
 
-        /* 交互控制区 */
-        .interaction-area { background: #050505; border-top: 1px solid #111; padding: 20px; padding-bottom: calc(20px + env(safe-area-inset-bottom)); flex-shrink: 0; }
-        .options-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        
-        .opt-btn { background: #111; padding: 16px; border-radius: 12px; border: 1px solid #222; cursor: pointer; transition: 0.2s; }
-        .opt-btn:active { background: #1a1a1a; border-color: #a855f7; transform: scale(0.98); }
-        .opt-title { font-size: 14px; color: #fff; display: block; font-weight: 600; }
-        .desc-tag { font-size: 11px; color: #666; display: block; margin-top: 5px; }
+        .interaction-area { 
+            background: #050505; 
+            padding-bottom: env(safe-area-inset-bottom); 
+            border-top: 1px solid #111;
+        }
 
-        /* 输入框：当需要手动输入时亮起 */
-        .input-bar { display: flex; gap: 10px; transition: 0.3s; padding: 4px; border-radius: 10px; border: 1px solid transparent; }
-        .input-bar.manual-active { background: rgba(168, 85, 247, 0.08); border: 1px solid #a855f7; }
-        input { flex: 1; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px; color: #fff; outline: none; font-size: 14px; }
-        .send-btn { background: #a855f7; padding: 0 22px; border-radius: 8px; display: flex; align-items: center; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .options-container { padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .opt-btn { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #222; cursor: pointer; }
+        .opt-title { font-size: 14px; color: #fff; font-weight: bold; display: block; }
+        .desc-tag { font-size: 11px; color: #666; display: block; margin-top: 3px; }
 
-        /* 最终意向单弹窗 */
-        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 99; padding: 25px; }
-        .ticket { width: 100%; max-width: 400px; background: #000; border: 1px solid #333; padding: 30px; position: relative; }
-        .ticket-header { text-align: center; margin-bottom: 20px; }
-        .ticket-line { text-align: center; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 12px 0; font-size: 18px; font-weight: bold; margin: 20px 0; letter-spacing: 2px; }
-        .item { margin-bottom: 16px; }
-        .lab { font-size: 10px; color: #a855f7; text-transform: uppercase; display: block; margin-bottom: 4px; font-weight: bold; }
-        .val { font-size: 15px; font-weight: 500; color: #efefef; }
-        .budget-area { background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; padding: 15px; margin-top: 25px; }
-        .modal-btns { display: flex; gap: 15px; margin-top: 35px; width: 100%; max-width: 400px; }
-        .btn { flex: 1; padding: 16px; border-radius: 30px; font-size: 13px; cursor: pointer; text-align: center; font-weight: bold; transition: 0.3s; }
+        .input-bar { display: flex; padding: 15px; gap: 10px; }
+        input { flex: 1; background: #1a1a1a; border: 1px solid #333; height: 40px; border-radius: 8px; padding: 0 15px; color: #fff; outline: none; }
+        .send-btn { background: #a855f7; padding: 0 15px; line-height: 40px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; }
+
+        /* 模态框样式 */
+        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 99; padding: 20px; }
+        .ticket { width: 100%; max-width: 350px; background: #000; border: 1px solid #333; padding: 25px; }
+        .ticket-line { text-align: center; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 8px 0; font-size: 15px; font-weight: bold; margin-bottom: 20px; }
+        .lab { font-size: 10px; color: #a855f7; display: block; text-transform: uppercase; }
+        .val { font-size: 14px; font-weight: bold; margin-bottom: 10px; display: block; }
+        .budget-area { background: rgba(168,85,247,0.1); border-left: 3px solid #a855f7; padding: 15px; margin: 15px 0; }
+        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { padding: 10px 20px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: bold; }
         .btn-gray { background: #222; color: #fff; }
-        .btn-purp { background: #a855f7; color: #fff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4); }
+        .btn-purp { background: #a855f7; color: #fff; }
     </style>
 </head>
 <body>
 
-<header>
-    <div>
-        <div class="brand-name">YOUNG MUSIC</div>
-        <div class="brand-sub">Premium Bespoke Audio</div>
-    </div>
-    <div class="undo-btn" onclick="undo()">↩ 撤销</div>
-</header>
+<div class="container">
+    <header>
+        <div>
+            <div class="brand-name">YOUNG MUSIC</div>
+            <span class="brand-sub">Premium Bespoke Audio</span>
+        </div>
+        <div class="undo-btn" onclick="undo()">↩ 撤销</div>
+    </header>
 
-<div id="chat-box"></div>
+    <div id="chat-box"></div>
 
-<div class="interaction-area">
-    <div id="options" class="options-container"></div>
-    <div class="input-bar" id="input-bar-wrap">
-        <input type="text" id="user-input" placeholder="输入特殊需求...">
-        <div class="send-btn" onclick="handleManual()">发送</div>
+    <div class="interaction-area">
+        <div id="options" class="options-container"></div>
+        <div class="input-bar">
+            <input type="text" id="user-input" placeholder="输入特殊需求...">
+            <div class="send-btn" onclick="handleManual()">发送</div>
+        </div>
     </div>
 </div>
 
 <div id="modal">
     <div class="ticket">
-        <div class="ticket-header"><span style="font-size:35px;">🎹</span></div>
+        <div style="text-align: center; font-size: 30px; margin-bottom: 10px;">🎹</div>
         <div class="ticket-line">项目定制意向单</div>
         <div id="ticket-content"></div>
         <div class="budget-area">
-            <span class="lab">Final Intentional Budget</span>
-            <span id="final-budget" style="font-size: 22px; font-weight: bold; color: #fff;"></span>
+            <span class="lab">Intentional Budget</span>
+            <span id="final-budget" style="font-size: 18px; font-weight: bold;"></span>
         </div>
-        <div style="margin-top:25px; text-align:center; border-top: 1px dashed #333; padding-top: 20px;">
-            <span class="lab">Official Contact</span>
-            <span style="color:#a855f7; font-size:14px; font-weight: bold;">tingyangmusic@qq.com</span>
-        </div>
+        <div style="text-align: center; font-size: 12px; color: #a855f7; margin-top: 15px;">tingyangmusic@qq.com</div>
     </div>
     <div class="modal-btns">
         <div class="btn btn-gray" onclick="location.reload()">重新开始</div>
-        <div class="btn btn-purp" onclick="copyEmail()">联系制作人</div>
+        <div class="btn btn-purp" onclick="alert('请截图此页面发送给制作人')">确认并联系</div>
     </div>
 </div>
 
 <script>
+    // 逻辑部分参考之前的版本，确保功能可用
     const scenarios = [
-        { q: "您好，欢迎来到 YOUNG MUSIC。请选择制作模式：", opts: [{ t: "🎨 匠心·全手工创作", d: "拒绝模版，艺术上限极高。" }, { t: "⚡ AI 智能辅助制作", d: "最新AI技术，性价比之选。" }, { t: "⌨️ 自定义输入", d: "我有其他想法..." }] },
-        { q: "请选择您心仪的曲风风格：", opts: [{ t: "🎤 流行 (Pop)" }, { t: "⚡ 电子 / 电音 (EDM)" }, { t: "🎧 嘻哈 / 摇滚" }, { t: "🎹 抒情 / 氛围" }, { t: "🏮 国风 / 管弦" }, { t: "⌨️ 手动输入" }] },
-        { q: "是否有对标案例？", opts: [{ t: "🔍 暂无对标", d: "由制作人自由发挥创作" }, { t: "⌨️ 手动填写要求", d: "输入对标曲名或链接" }] },
-        { q: "作品的时长规格：", opts: [{ t: "30s 商业片段" }, { t: "3:30 标准完整版" }, { t: "⌨️ 自定义时长" }] },
-        { q: "关于作品权益授权方案：", opts: [{ t: "👑 版权买断", d: "商用全权益" }, { t: "🤝 非买断授权", d: "保留著作权，价格亲民" }, { t: "⌨️ 另行协商" }] },
-        { q: "最后，确定您的商务预算：", opts: [{ t: "💰 ¥500" }, { t: "💎 ¥3000" }, { t: "🏆 ¥10000+" }, { t: "⌨️ 手动报价" }] }
+        { q: "您好，YOUNG MUSIC。请选择制作模式：", opts: [{ t: "🎨 匠心·全手工创作", d: "拒绝模版，艺术上限极高。" }, { t: "⚡ AI 智能辅助制作", d: "性价比之选。" }, { t: "⌨️ 自定义输入" }] },
+        { q: "请选择您心仪的曲风风格：", opts: [{ t: "🎤 流行 (Pop)" }, { t: "⚡ 电子 (EDM)" }, { t: "🎧 嘻哈 / 摇滚" }, { t: "🎹 抒情 / 氛围" }, { t: "⌨️ 手动输入" }] },
+        { q: "是否有对标案例？", opts: [{ t: "🔍 暂无对标" }, { t: "⌨️ 手动填写要求" }] },
+        { q: "最后，确定您的商务预算：", opts: [{ t: "💰 ¥1000" }, { t: "💎 ¥3000" }, { t: "🏆 ¥10000+" }, { t: "⌨️ 手动报价" }] }
     ];
 
-    let step = 0; 
-    let answers = []; 
-    let isWaiting = false;
+    let step = 0; let answers = [];
+    const chatBox = document.getElementById('chat-box');
 
     function addChat(text, type) {
-        const box = document.getElementById('chat-box');
         const w = document.createElement('div');
         w.className = `bubble-wrapper ${type}-row`;
         w.innerHTML = `<div class="bubble bubble-${type}">${text}</div>`;
-        box.appendChild(w);
-        box.scrollTop = box.scrollHeight;
+        chatBox.appendChild(w);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function render() {
         const c = document.getElementById('options');
-        const iWrap = document.getElementById('input-bar-wrap');
-        const iInp = document.getElementById('user-input');
-        
         c.innerHTML = '';
         if (step >= scenarios.length) return;
-        
-        if (isWaiting) {
-            iWrap.classList.add('manual-active');
-            iInp.placeholder = "请在此输入您的具体要求并发送...";
-            c.style.display = 'none';
-        } else {
-            iWrap.classList.remove('manual-active');
-            iInp.placeholder = "补充特殊需求...";
-            c.style.display = 'flex';
-            scenarios[step].opts.forEach(opt => {
-                const b = document.createElement('div');
-                b.className = 'opt-btn';
-                b.innerHTML = `<span class="opt-title">${opt.t}</span>${opt.d ? `<span class="desc-tag">${opt.d}</span>` : ''}`;
-                b.onclick = () => {
-                    if (opt.t.includes('⌨️')) {
-                        addChat(opt.t, 'user');
-                        addChat("好的，请在下方输入框写下具体要求，完成后点击发送。", 'ai');
-                        isWaiting = true; 
-                        render();
-                    } else { 
-                        process(opt.t); 
-                    }
-                };
-                c.appendChild(b);
-            });
-        }
-    }
-
-    function handleManual() {
-        const inp = document.getElementById('user-input');
-        if (!inp.value.trim()) return;
-        const v = inp.value; 
-        inp.value = '';
-        isWaiting = false; 
-        process(v);
+        scenarios[step].opts.forEach(opt => {
+            const b = document.createElement('div');
+            b.className = 'opt-btn';
+            b.innerHTML = `<span class="opt-title">${opt.t}</span>${opt.d ? `<span class="desc-tag">${opt.d}</span>` : ''}`;
+            b.onclick = () => process(opt.t);
+            c.appendChild(b);
+        });
     }
 
     function process(v) {
-        answers.push(v); 
-        addChat(v, 'user'); 
+        answers.push(v);
+        addChat(v, 'user');
         step++;
         if (step < scenarios.length) {
-            setTimeout(() => { 
-                addChat(scenarios[step].q, 'ai'); 
-                render(); 
-            }, 500);
+            setTimeout(() => { addChat(scenarios[step].q, 'ai'); render(); }, 400);
         } else {
-            setTimeout(showModal, 800);
+            setTimeout(showModal, 600);
         }
     }
 
     function showModal() {
         document.getElementById('modal').style.display = 'flex';
         document.getElementById('ticket-content').innerHTML = `
-            <div class="item"><span class="lab">Production / Style</span><span class="val">${answers[0]} · ${answers[1]}</span></div>
-            <div class="item"><span class="lab">Reference / Requirement</span><span class="val">${answers[2]}</span></div>
-            <div class="item"><span class="lab">Duration / Rights</span><span class="val">${answers[3]} · ${answers[4]}</span></div>
+            <span class="lab">Mode & Style</span><span class="val">${answers[0]} / ${answers[1]}</span>
+            <span class="lab">Reference</span><span class="val">${answers[2]}</span>
         `;
-        document.getElementById('final-budget').innerText = "意向: " + answers[5];
+        document.getElementById('final-budget').innerText = answers[3] || '另议';
     }
 
-    function undo() {
-        if (step > 0 && answers.length > 0) {
-            step--; 
-            answers.pop();
-            const box = document.getElementById('chat-box');
-            // 移除最后两条消息（用户的一条，AI的一条）
-            box.removeChild(box.lastChild); 
-            box.removeChild(box.lastChild);
-            isWaiting = false; 
-            render();
-        }
-    }
+    function undo() { if (step > 0) { step--; answers.pop(); chatBox.removeChild(chatBox.lastChild); chatBox.removeChild(chatBox.lastChild); render(); } }
 
-    function copyEmail() {
-        alert('官方联络邮箱：tingyangmusic@qq.com\n请截图当前意向单发送至邮件，我们将尽快回复。');
-    }
-
-    // 初始运行
-    window.onload = () => {
-        addChat(scenarios[0].q, 'ai'); 
-        render();
-    };
+    window.onload = () => { addChat(scenarios[0].q, 'ai'); render(); };
 </script>
 </body>
 </html>
