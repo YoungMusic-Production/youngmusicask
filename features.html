@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+ <title>YOUNG MUSIC | 核心功能</title>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+ /* 强制背景为纯黑色 */
+ html, body { 
+ height: 100%; 
+ background: #000000; 
+ overflow: hidden; 
+ }
+
+ body { 
+ color: #D4AF37; 
+ font-family: -apple-system, system-ui, sans-serif; 
+ display: flex; 
+ flex-direction: column; 
+ align-items: center; 
+ padding: env(safe-area-inset-top) 25px env(safe-area-inset-bottom) 25px;
+ }
+
+ /* 品牌头部 */
+ .brand-header {
+ text-align: center;
+ padding-top: 5vh;
+ margin-bottom: 5vh;
+ flex-shrink: 0;
+ }
+ .brand-logo { width: 50px; height: auto; margin-bottom: 10px; }
+ .brand-name { font-size: 1.2em; letter-spacing: 5px; font-weight: 300; color: #D4AF37; text-transform: uppercase; }
+ .brand-sub { font-size: 0.5em; letter-spacing: 7px; color: #666; text-transform: uppercase; margin-top: 4px; }
+
+ /* 选项容器 */
+ .container { 
+ width: 100%; 
+ max-width: 350px; 
+ display: flex; 
+ flex-direction: column; 
+ gap: 1.5vh; 
+ }
+
+ .card { 
+ background: rgba(255, 255, 255, 0.03); 
+ border: 1px solid rgba(212, 175, 55, 0.12); 
+ padding: 20px 15px; 
+ text-align: center; 
+ border-radius: 4px; 
+ text-decoration: none; 
+ color: #D4AF37; 
+ transition: all 0.3s ease;
+ }
+ .card:active { background: rgba(212, 175, 55, 0.1); transform: scale(0.98); }
+ .card h2 { margin-bottom: 2px; letter-spacing: 3px; font-weight: 300; font-size: 1.05em; }
+ .card p { font-size: 0.5em; color: #555; letter-spacing: 1.5px; text-transform: uppercase; }
+
+ .card.featured { 
+ border-color: rgba(168, 85, 247, 0.3); 
+ background: linear-gradient(145deg, rgba(168, 85, 247, 0.05), rgba(0,0,0,0));
+ }
+
+ /* 纯白呼吸感的返回按钮 */
+ .back-home { 
+ margin-top: 4vh; 
+ color: #ffffff; 
+ text-decoration: none; 
+ font-size: 0.75em; 
+ letter-spacing: 4px; 
+ font-weight: 300;
+ text-shadow: 0 0 10px rgba(255,255,255,0.2);
+ animation: breathe 3s infinite ease-in-out;
+ padding: 10px 20px;
+ }
+
+ @keyframes breathe {
+ 0%, 100% { opacity: 0.6; transform: scale(1); }
+ 50% { opacity: 1; transform: scale(1.02); }
+ }
+
+ .qr-section { margin-top: 10px; display: none; text-align: center; }
+ .qr-section img { width: 140px; height: 140px; border: 1px solid rgba(212, 175, 55, 0.2); background: #fff; padding: 4px; }
+ </style>
+</head>
+<body>
+ <div class="brand-header">
+ <img src="logo.png" alt="YOUNG MUSIC" class="brand-logo" onerror="this.style.display='none'">
+ <div class="brand-name">YOUNG MUSIC</div>
+ <div class="brand-sub">PRODUCTION</div>
+ </div>
+
+ <div class="container">
+ <a href="form.html" class="card featured">
+ <h2>开启意向单</h2>
+ <p>Start Project Brief</p>
+ </a>
+ <div class="card" style="cursor: pointer;" onclick="toggleQR()">
+ <h2>AI 顾问</h2>
+ <p>AI Consultant</p>
+ <div id="qr" class="qr-section"><img src="wechat.jpg" alt="QR"></div>
+ </div>
+ <a href="news.html" class="card">
+ <h2>近期新闻</h2>
+ <p>Latest News</p>
+ </a>
+ <a href="https://music.163.com/#/artist?id=95820268" target="_blank" class="card">
+ <h2>匠心作品</h2>
+ <p>Music Portfolio</p>
+ </a>
+ <a href="https://space.bilibili.com/306949554/lists/2336867?type=season" target="_blank" class="card">
+ <h2>视觉影像</h2>
+ <p>Video & Visuals</p>
+ </a>
+ </div>
+
+ <a href="index.html" class="back-home">RETURN TO HOME</a>
+
+ <script>
+ function toggleQR() {
+ var qr = document.getElementById('qr');
+ qr.style.display = (qr.style.display === 'block') ? 'none' : 'block';
+ if(qr.style.display === 'block') {
+ document.body.style.overflowY = 'auto';
+ document.documentElement.style.overflowY = 'auto';
+ }
+ }
+ </script>
+</body>
+</html>

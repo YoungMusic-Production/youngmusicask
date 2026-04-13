@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+ <title>YOUNG MUSIC | 近期新闻</title>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+ html, body { 
+ height: 100%; 
+ background: #000000; 
+ overflow-x: hidden; 
+ }
+
+ body { 
+ color: #D4AF37; 
+ font-family: -apple-system, system-ui, sans-serif; 
+ display: flex; 
+ flex-direction: column; 
+ align-items: center; 
+ padding: env(safe-area-inset-top) 25px env(safe-area-inset-bottom) 25px;
+ }
+
+ /* 品牌头部 */
+ .brand-header {
+ text-align: center;
+ padding-top: 5vh;
+ margin-bottom: 5vh;
+ flex-shrink: 0;
+ }
+ .brand-logo { width: 50px; height: auto; margin-bottom: 10px; }
+ .brand-name { font-size: 1.2em; letter-spacing: 5px; font-weight: 300; color: #D4AF37; text-transform: uppercase; }
+ .brand-sub { font-size: 0.5em; letter-spacing: 7px; color: #666; text-transform: uppercase; margin-top: 4px; }
+
+ /* 页面标题 */
+ .page-title {
+ font-size: 0.6em;
+ letter-spacing: 6px;
+ color: #666;
+ text-transform: uppercase;
+ margin-bottom: 4vh;
+ text-align: center;
+ }
+
+ /* 新闻容器 */
+ .news-container { 
+ width: 100%; 
+ max-width: 400px; 
+ display: flex; 
+ flex-direction: column; 
+ gap: 2vh; 
+ }
+
+ /* 新闻卡片 */
+ .news-card { 
+ background: rgba(255, 255, 255, 0.03); 
+ border: 1px solid rgba(212, 175, 55, 0.12); 
+ padding: 18px 15px; 
+ border-radius: 4px; 
+ transition: all 0.3s ease;
+ }
+ .news-card:active { background: rgba(212, 175, 55, 0.05); transform: scale(0.99); }
+ .news-date { font-size: 0.45em; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+ .news-title { font-size: 0.9em; color: #D4AF37; letter-spacing: 1px; font-weight: 300; line-height: 1.5; margin-bottom: 4px; }
+ .news-desc { font-size: 0.5em; color: #555; letter-spacing: 0.5px; line-height: 1.6; }
+ .news-tag { display: inline-block; font-size: 0.4em; color: #a855f7; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 6px; border-radius: 3px; }
+
+ /* 空状态 */
+ .empty-state {
+ text-align: center;
+ padding: 40px 0;
+ color: #333;
+ font-size: 0.6em;
+ letter-spacing: 3px;
+ }
+
+ /* 纯白呼吸感的返回按钮 */
+ .back-home { 
+ margin-top: 4vh; 
+ color: #ffffff; 
+ text-decoration: none; 
+ font-size: 0.75em; 
+ letter-spacing: 4px; 
+ font-weight: 300;
+ text-shadow: 0 0 10px rgba(255,255,255,0.2);
+ animation: breathe 3s infinite ease-in-out;
+ padding: 10px 20px;
+ }
+
+ @keyframes breathe {
+ 0%, 100% { opacity: 0.6; transform: scale(1); }
+ 50% { opacity: 1; transform: scale(1.02); }
+ }
+
+ /* 底部信息 */
+ .footer-info {
+ margin-top: auto;
+ padding-top: 4vh;
+ text-align: center;
+ font-size: 0.45em;
+ color: #333;
+ letter-spacing: 3px;
+ text-transform: uppercase;
+ }
+ </style>
+</head>
+<body>
+
+ <div class="brand-header">
+ <img src="logo.png" alt="YOUNG MUSIC" class="brand-logo" onerror="this.style.display='none'">
+ <div class="brand-name">YOUNG MUSIC</div>
+ <div class="brand-sub">PRODUCTION</div>
+ </div>
+
+ <div class="page-title">LATEST NEWS</div>
+
+ <div class="news-container" id="news-list">
+ <div class="empty-state">暂无新闻动态<br>敬请期待</div>
+ </div>
+
+ <a href="index.html" class="back-home">RETURN TO HOME</a>
+
+ <div class="footer-info">YOUNG MUSIC STUDIO</div>
+
+</body>
+</html>
