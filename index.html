@@ -1,78 +1,242 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>YOUNG MUSIC | 匠心定制</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>YOUNG MUSIC | 匠心定制意向确认</title>
     <style>
+        /* 核心样式 - 保持黑金高级感 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: #000; 
-            height: 100vh; 
+        body { background: #000; color: #fff; height: 100vh; overflow: hidden; font-family: -apple-system, "SF Pro Display", sans-serif; }
+
+        .container { 
             display: flex; 
             flex-direction: column; 
+            height: 100vh; 
+            padding-top: 25px; 
+        }
+
+        header { 
+            display: flex; 
+            justify-content: space-between; 
             align-items: center; 
-            justify-content: center; 
-            font-family: -apple-system, sans-serif;
+            padding: 10px 15px; 
+            border-bottom: 1px solid #1a1a1a; 
+            background: #050505; 
+            flex-shrink: 0;
         }
 
-        .logo-container {
-            text-align: center;
-            margin-bottom: 50px;
+        .header-brand { display: flex; align-items: center; gap: 10px; }
+        .header-logo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #111; border: 1px solid #333; }
+        .brand-name { font-size: 14px; font-weight: bold; letter-spacing: 1px; }
+        .brand-sub { font-size: 10px; color: #a855f7; display: block; text-transform: uppercase; }
+        .undo-btn { font-size: 11px; color: #666; border: 1px solid #333; padding: 4px 10px; border-radius: 15px; cursor: pointer; transition: 0.2s; }
+        .undo-btn:active { background: #1a1a1a; color: #fff; }
+
+        #chat-box { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 15px; 
+            -webkit-overflow-scrolling: touch;
         }
 
-        .main-logo {
-            width: 80px;
-            height: auto;
-            margin-bottom: 20px;
+        .bubble-wrapper { display: flex; margin-bottom: 15px; width: 100%; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .ai-row { justify-content: flex-start; }
+        .user-row { justify-content: flex-end; }
+        .bubble { max-width: 85%; padding: 12px 16px; font-size: 14px; line-height: 1.6; border-radius: 18px; }
+        .bubble-ai { background: #1a1a1c; color: #ccc; border-bottom-left-radius: 4px; border: 1px solid #222; }
+        .bubble-user { background: #a855f7; color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2); }
+
+        .interaction-area { 
+            background: #050505; 
+            padding-bottom: env(safe-area-inset-bottom); 
+            border-top: 1px solid #111;
         }
 
-        .brand-name {
-            color: #D4AF37;
-            font-size: 1.8em;
-            letter-spacing: 10px;
-            font-weight: 300;
-            text-transform: uppercase;
-        }
+        .options-container { padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .opt-btn { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #222; cursor: pointer; transition: 0.2s; }
+        .opt-btn:active { transform: scale(0.98); border-color: #a855f7; }
+        .opt-title { font-size: 14px; color: #fff; font-weight: bold; display: block; }
+        .desc-tag { font-size: 11px; color: #666; display: block; margin-top: 3px; }
 
-        /* 仅仅修改这个按钮的文字效果：纯白 + 呼吸动画 */
-        .enter-btn {
-            margin-top: 30px;
-            color: #ffffff; /* 纯白 */
-            text-decoration: none;
-            font-size: 0.8em;
-            letter-spacing: 5px;
-            font-weight: 300;
-            text-transform: uppercase;
-            
-            /* 呼吸动画效果 */
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-            animation: breathe 3s infinite ease-in-out;
-            display: inline-block;
-        }
+        .input-bar { display: flex; padding: 15px; gap: 10px; opacity: 0.3; transition: 0.3s; pointer-events: none; }
+        .input-bar.active { opacity: 1; pointer-events: auto; }
+        input { flex: 1; background: #1a1a1a; border: 1px solid #333; height: 42px; border-radius: 8px; padding: 0 15px; color: #fff; outline: none; font-size: 14px; }
+        .send-btn { background: #a855f7; padding: 0 20px; line-height: 42px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; }
 
-        @keyframes breathe {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-        }
-
-        .footer-text {
-            position: absolute;
-            bottom: 30px;
-            color: #333;
-            font-size: 0.6em;
-            letter-spacing: 2px;
-        }
+        /* 最终意向单弹窗 */
+        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 99; padding: 20px; }
+        .ticket { width: 100%; max-width: 350px; background: #000; border: 1px solid #333; padding: 25px; position: relative; }
+        .ticket-logo { width: 50px; height: 50px; display: block; margin: 0 auto 15px; border-radius: 50%; }
+        .ticket-line { text-align: center; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 10px 0; font-size: 16px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; }
+        .lab { font-size: 10px; color: #a855f7; display: block; text-transform: uppercase; margin-bottom: 2px; font-weight: bold; }
+        .val { font-size: 14px; font-weight: bold; margin-bottom: 15px; display: block; color: #fff; }
+        .budget-area { background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; padding: 15px; margin: 15px 0; }
+        
+        .modal-btns { display: flex; gap: 12px; margin-top: 25px; width: 100%; max-width: 350px; }
+        .btn { padding: 14px 20px; border-radius: 25px; font-size: 13px; cursor: pointer; font-weight: bold; text-align: center; flex: 1; transition: 0.2s; }
+        .btn-gray { background: #222; color: #fff; }
+        .btn-purp { background: #a855f7; color: #fff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
     </style>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="logo.png" alt="YOUNG MUSIC" class="main-logo" onerror="this.style.display='none'">
-        <div class="brand-name">YOUNG MUSIC</div>
-        
-        <a href="features.html" class="enter-btn">CLICK TO ENTER</a>
-    </div>
 
-    <div class="footer-text">PREMIUM BESPOKE AUDIO</div>
+<div class="container">
+    <header>
+        <div class="header-brand">
+            <img src="logo.png" class="header-logo" alt="Logo" onerror="this.style.display='none'">
+            <div>
+                <div class="brand-name">YOUNG MUSIC</div>
+                <span class="brand-sub">Premium Bespoke Audio</span>
+            </div>
+        </div>
+        <div class="undo-btn" onclick="undo()">↩ 撤销</div>
+    </header>
+
+    <div id="chat-box"></div>
+
+    <div class="interaction-area">
+        <div id="options" class="options-container"></div>
+        <div class="input-bar" id="input-bar">
+            <input type="text" id="user-input" placeholder="请选择上方选项或手动输入...">
+            <div class="send-btn" onclick="handleManual()">发送</div>
+        </div>
+    </div>
+</div>
+
+<div id="modal">
+    <div class="ticket">
+        <img src="logo.png" class="ticket-logo" alt="Logo" onerror="this.innerHTML='🎹'">
+        <div class="ticket-line">项目定制意向单</div>
+        <div id="ticket-content"></div>
+        <div class="budget-area">
+            <span class="lab">Intentional Budget</span>
+            <span id="final-budget" style="font-size: 20px; font-weight: bold; color: #fff;"></span>
+        </div>
+        <div style="text-align: center; font-size: 12px; color: #a855f7; margin-top: 20px; border-top: 1px dashed #222; padding-top:15px;">
+            tingyangmusic@qq.com
+        </div>
+    </div>
+    <div class="modal-btns">
+        <div class="btn btn-gray" onclick="location.reload()">重新开始</div>
+        <div class="btn btn-purp" onclick="alert('请截图发送邮件至tingyangmusic@qq.com，如果意向成立，我们将尽快为您对接。')">确认并联系</div>
+    </div>
+</div>
+
+<script>
+    // 1. 定义对话流程（全家桶版：含版权选项）
+    const scenarios = [
+        { q: "您好，欢迎来到 YOUNG MUSIC。请选择您需要的制作模式：", opts: [{ t: "🎨 匠心·全手工创作", d: "拒绝模版，艺术上限极高。" }, { t: "⚡ AI 智能辅助制作", d: "性价比之选，快速交付。" }, { t: "⌨️ 自定义模式" }] },
+        { q: "请选择您心仪的曲风风格：", opts: [{ t: "🎤 流行 (Pop)" }, { t: "⚡ 电子 (EDM)" }, { t: "🎧 嘻哈 / 摇滚" }, { t: "🎹 抒情 / 氛围" }, { t: "🏮 国风 / 管弦" }, { t: "⌨️ 手动输入风格" }] },
+        { q: "是否有对标案例或参考链接？", opts: [{ t: "🔍 暂无对标", d: "由制作人自由发挥创作" }, { t: "⌨️ 手动填写要求", d: "请输入曲名或参考链接" }] },
+        { q: "请选择您心仪的作品权益方案：", opts: [{ t: "👑 版权买断", d: "商用全权益，独家拥有" }, { t: "🤝 非买断授权", d: "价格亲民，保留著作权" }, { t: "⌨️ 另行协商方案" }] },
+        { q: "最后，请确定您的商务预算区间：", opts: [{ t: "💰 ¥1000" }, { t: "💎 ¥3000" }, { t: "🏆 ¥10000+" }, { t: "⌨️ 手动报价" }] }
+    ];
+
+    let step = 0; let answers = [];
+    let isWaitingManual = false;
+    const chatBox = document.getElementById('chat-box');
+    const inputBar = document.getElementById('input-bar');
+    const userInput = document.getElementById('user-input');
+
+    function addChat(text, type) {
+        const w = document.createElement('div');
+        w.className = `bubble-wrapper ${type}-row`;
+        w.innerHTML = `<div class="bubble bubble-${type}">${text}</div>`;
+        chatBox.appendChild(w);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function render() {
+        const c = document.getElementById('options');
+        c.innerHTML = '';
+        if (step >= scenarios.length) return;
+
+        // 如果是手动输入模式
+        if (isWaitingManual) {
+            c.style.display = 'none';
+            inputBar.classList.add('active');
+            userInput.placeholder = "请在此输入并点击发送...";
+            userInput.focus();
+        } else {
+            c.style.display = 'flex';
+            inputBar.classList.remove('active');
+            userInput.placeholder = "请先选择上方选项...";
+            scenarios[step].opts.forEach(opt => {
+                const b = document.createElement('div');
+                b.className = 'opt-btn';
+                b.innerHTML = `<span class="opt-title">${opt.t}</span>${opt.d ? `<span class="desc-tag">${opt.d}</span>` : ''}`;
+                b.onclick = () => {
+                    // 识别手动输入关键字
+                    if (opt.t.includes('⌨️') || opt.t.includes('手动') || opt.t.includes('协商')) {
+                        addChat(opt.t, 'user');
+                        addChat("好的，请在下方写下您的具体要求：", 'ai');
+                        isWaitingManual = true;
+                        render();
+                    } else {
+                        process(opt.t);
+                    }
+                };
+                c.appendChild(b);
+            });
+        }
+    }
+
+    function handleManual() {
+        const val = userInput.value.trim();
+        if (!val) return;
+        userInput.value = '';
+        isWaitingManual = false;
+        process(val);
+    }
+
+    function process(v) {
+        answers.push(v);
+        // 如果不是手动模式过来的（手动模式在上面已经 addChat 过了）
+        if (!isWaitingManual) {
+            addChat(v, 'user');
+        }
+        
+        step++;
+        if (step < scenarios.length) {
+            setTimeout(() => { 
+                addChat(scenarios[step].q, 'ai'); 
+                render(); 
+            }, 400);
+        } else {
+            setTimeout(showModal, 600);
+        }
+    }
+
+    function showModal() {
+        document.getElementById('modal').style.display = 'flex';
+        document.getElementById('ticket-content').innerHTML = `
+            <span class="lab">Production / Style</span><span class="val">${answers[0]} · ${answers[1]}</span>
+            <span class="lab">Requirement / Ref</span><span class="val">${answers[2]}</span>
+            <span class="lab">Rights Plan</span><span class="val">${answers[3]}</span>
+        `;
+        document.getElementById('final-budget').innerText = "意向: " + (answers[4] || '另议');
+    }
+
+    function undo() { 
+        if (step > 0 && answers.length > 0) { 
+            step--; 
+            answers.pop(); 
+            // 移除最后两条气泡（用户的一条，AI的一条）
+            chatBox.removeChild(chatBox.lastChild); 
+            chatBox.removeChild(chatBox.lastChild); 
+            isWaitingManual = false;
+            render(); 
+        } 
+    }
+
+    // 页面加载启动
+    window.onload = () => { 
+        addChat(scenarios[0].q, 'ai'); 
+        render(); 
+    };
+</script>
 </body>
 </html>
