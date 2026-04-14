@@ -7,18 +7,18 @@
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
- html, body { 
- height: 100%; 
- background: #000000; 
- overflow-x: hidden; 
+ html, body {
+ height: 100%;
+ background: #000000;
+ overflow-x: hidden;
  }
 
- body { 
- color: #D4AF37; 
- font-family: -apple-system, system-ui, sans-serif; 
- display: flex; 
- flex-direction: column; 
- align-items: center; 
+ body {
+ color: #D4AF37;
+ font-family: -apple-system, system-ui, sans-serif;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
  padding: env(safe-area-inset-top) 25px env(safe-area-inset-bottom) 25px;
  }
 
@@ -44,20 +44,20 @@
  }
 
  /* 新闻容器 */
- .news-container { 
- width: 100%; 
- max-width: 400px; 
- display: flex; 
- flex-direction: column; 
- gap: 2vh; 
+ .news-container {
+ width: 100%;
+ max-width: 400px;
+ display: flex;
+ flex-direction: column;
+ gap: 2vh;
  }
 
  /* 新闻卡片 */
- .news-card { 
- background: rgba(255, 255, 255, 0.03); 
- border: 1px solid rgba(212, 175, 55, 0.12); 
- padding: 18px 15px; 
- border-radius: 4px; 
+ .news-card {
+ background: rgba(255, 255, 255, 0.03);
+ border: 1px solid rgba(212, 175, 55, 0.12);
+ padding: 18px 15px;
+ border-radius: 4px;
  transition: all 0.3s ease;
  }
  .news-card:active { background: rgba(212, 175, 55, 0.05); transform: scale(0.99); }
@@ -66,22 +66,29 @@
  .news-desc { font-size: 0.5em; color: #555; letter-spacing: 0.5px; line-height: 1.6; }
  .news-tag { display: inline-block; font-size: 0.4em; color: #a855f7; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 6px; border-radius: 3px; }
 
- /* 空状态 */
- .empty-state {
- text-align: center;
- padding: 40px 0;
- color: #333;
- font-size: 0.6em;
- letter-spacing: 3px;
+ /* 艺术家加盟卡片 */
+ .artist-card {
+ background: rgba(255, 255, 255, 0.03);
+ border: 1px solid rgba(212, 175, 55, 0.2);
+ padding: 22px 18px;
+ border-radius: 4px;
  }
+ .artist-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+ .artist-name { font-size: 1em; color: #D4AF37; letter-spacing: 2px; font-weight: 400; }
+ .artist-location { font-size: 0.5em; color: #666; letter-spacing: 1px; }
+ .artist-title { font-size: 0.55em; color: #888; letter-spacing: 0.5px; line-height: 1.6; margin-bottom: 12px; }
+ .artist-section { margin-bottom: 10px; }
+ .artist-section-title { font-size: 0.45em; color: #D4AF37; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+ .artist-section-content { font-size: 0.5em; color: #666; letter-spacing: 0.3px; line-height: 1.7; }
+ .artist-section-content li { margin-bottom: 4px; margin-left: 10px; }
 
  /* 纯白呼吸感的返回按钮 */
- .back-home { 
- margin-top: 4vh; 
- color: #ffffff; 
- text-decoration: none; 
- font-size: 0.75em; 
- letter-spacing: 4px; 
+ .back-home {
+ margin-top: 4vh;
+ color: #ffffff;
+ text-decoration: none;
+ font-size: 0.75em;
+ letter-spacing: 4px;
  font-weight: 300;
  text-shadow: 0 0 10px rgba(255,255,255,0.2);
  animation: breathe 3s infinite ease-in-out;
@@ -116,7 +123,50 @@
  <div class="page-title">LATEST NEWS</div>
 
  <div class="news-container" id="news-list">
- <div class="empty-state">暂无新闻动态<br>敬请期待</div>
+
+  <div class="news-card">
+   <div class="news-date">2025.04.14</div>
+   <div class="news-title">强力声音设计艺术家加盟 YOUNG MUSIC</div>
+   <div class="news-tag">艺术家加盟</div>
+  </div>
+
+  <div class="artist-card">
+   <div class="artist-header">
+    <span class="artist-name">魏方夏</span>
+    <span class="artist-location">中国香港</span>
+   </div>
+   <div class="artist-title">青年作曲家、声音设计师与跨媒体艺术家</div>
+
+   <div class="artist-section">
+    <div class="artist-section-title">学术背景</div>
+    <div class="artist-section-content">
+     现为清华大学美术学院设计学在读博士生，同时担任该学院新媒体演艺创新研究所研究员，并曾作为驻地艺术家于法国巴黎国际艺术城（Cité internationale des arts）进行创作与交流。<br><br>
+     创作与研究聚焦于声音艺术与听觉体验设计，深入探索声音在空间、科技与人类感知中的交互关系，致力于在前沿学术研究与艺术实践中推动文化与技术的深度融合。作品广受认可，曾在多个国际艺术节和展览中展出。
+    </div>
+   </div>
+
+   <div class="artist-section">
+    <div class="artist-section-title">作曲与声音设计</div>
+    <div class="artist-section-content">
+     <ul>
+      <li>新媒体艺术与主题片：「天中国史——汉魏洛阳故城遗址博物馆」主题片（2025）、「穹天玉宇」沉浸式中国藻井数字艺术体验空间（2024）、首都博物馆大运河多媒体展（2023）、中华世纪坛《天生我材·李白》（2023）、《一蓑烟雨·苏轼》（2024）</li>
+      <li>大型光影秀：山阴广武国际滑雪场光影秀（2025）、阿里巴巴北京总部开幕光影秀（2024）、中国科幻大会（2024、2025）开幕光影秀、清华大学110周年校庆光影秀《大先生》</li>
+      <li>戏剧舞台：上海话剧艺术中心话剧《红楼梦》《西游》、香港话剧团话剧《两刃相交》</li>
+      <li>品牌与产品：华为外屏萌宠声音设计</li>
+     </ul>
+    </div>
+   </div>
+
+   <div class="artist-section">
+    <div class="artist-section-title">现场扩声与多声道混音</div>
+    <div class="artist-section-content">
+     <ul>
+      <li>《只有河南》、《又见马六甲》、《驼铃传奇》、《聚上海》东方明珠穹顶秀等大型文旅项目</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+
  </div>
 
  <a href="index.html" class="back-home">RETURN TO HOME</a>
